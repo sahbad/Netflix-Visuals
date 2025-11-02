@@ -1,4 +1,5 @@
 """visualize.py — plotting functions for Netflix visuals (Python)"""
+# Using horizontal bars since genre names are long and easier to read sideways thereby preventing overlapping and making the chart cleaner.
 import argparse
 from pathlib import Path
 import pandas as pd

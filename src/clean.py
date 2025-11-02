@@ -9,13 +9,16 @@ What this script does:
 5) Replace missing ratings with 'UNRATED'
 6) Drop rows missing essential values (title or type)
 """
+# I’m converting ratings to uppercase to make categories consistent for grouping
+# I'm also dropping rows with missing titles or type to ensure we don’t plot invalid entries.
 
+from typing import List
 import argparse
 from pathlib import Path
 import pandas as pd
 
 
-def strip_whitespace(df: pd.DataFrame, text_cols: list[str]) -> pd.DataFrame:
+def strip_whitespace(df: pd.DataFrame, text_cols: List[str]) -> pd.DataFrame:
     """Strip leading/trailing spaces for specified text columns without turning NaN into strings."""
     df = df.copy()
     for col in text_cols:
@@ -79,11 +82,10 @@ def main():
     # Quick sanity outputs
     print("Shape after cleaning:", cleaned.shape)
     if "type" in cleaned.columns:
-        print("Type counts:
-", cleaned["type"].value_counts(dropna=False))
+        print("Type counts:\n", cleaned["type"].value_counts(dropna=False))
     if "rating" in cleaned.columns:
-        print("Top ratings:
-", cleaned["rating"].value_counts().head(10))
+        print("Top ratings:\n", cleaned["rating"].value_counts().head(10))
+
 
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     cleaned.to_csv(args.out, index=False)
